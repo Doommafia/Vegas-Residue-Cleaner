@@ -3,23 +3,20 @@ import os
 def VegasResidueCleaner(rootFolder):
     for root, dirs, files in os.walk(rootFolder):
         for file in files:
-            # Check if the file ends with ".sfk"
-            if file.endswith(".sfk"):
-                # Construct the corresponding .mp4 file name
-                mp4File = os.path.splitext(file)[0] + ".mp4"
+            if file.endswith(".mp4"):
+                mp4_file_path = os.path.join(root, file)
+                sfk_file_path = os.path.join(root, file + ".sfk")
+                
+                if os.path.exists(sfk_file_path):
+                    print("\n")
+                    os.remove(mp4_file_path)
+                    print(f"{file} has been deleted.")
+                    
+                    os.remove(sfk_file_path)
+                    print(f"{file}.sfk has been deleted.")
 
-                # Delete the .sfk file
-                sfkPath = os.path.join(root, file)
-                print("File ", sfkPath, ' deleted!\n' )
-                os.remove(sfkPath)
+    print("MP4 files and corresponding MP4.SFK files deleted successfully!")
 
-                # Delete the corresponding .mp4 file if it exists
-                mp4Path = os.path.join(root, mp4File)
-                if os.path.exists(mp4Path):
-                    os.remove(mp4Path)
-
-    print("SFK and MP4 files deleted successfully!")
-
-#Define your folder
-rootFolder = "D:\Videos"
+# Define your folder
+rootFolder = "C:/Videos"
 VegasResidueCleaner(rootFolder)
